@@ -43,6 +43,19 @@ public class PetShopAPI {
           .response();
     }
 
+    public static Response postInvalidPet(String body) {
+        return RestAssured
+          .given()
+          .spec(updatePetByJSONRequestSpec())
+          .body(body)
+          .when()
+          .post()
+          .then()
+          .extract()
+          .response();
+    }
+
+
     public static RequestSpecification updatePetByIdRequestSpec(Integer petId) {
         return defaultRequestSpec(PET_ID_PATH)
                 .addHeaders(Map.of("Accept", "application/json"))
