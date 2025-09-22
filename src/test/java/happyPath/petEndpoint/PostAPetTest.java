@@ -1,23 +1,18 @@
 package happyPath.petEndpoint;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pojos.Pet;
 
-import java.util.Map;
+
+import static utils.PetShopAPI.createPet;
 
 public class PostAPetTest {
 
   private static Response response;
   private static Pet petResponse;
-  private static final String BASE_URI = "https://petstore3.swagger.io/api/v3";
-  private static final String POST_PET_PATH = "/pet";
-
   private static final String VALID_REQUEST_BODY = """
     {
       "id": 14,
@@ -41,18 +36,7 @@ public class PostAPetTest {
 
   @BeforeAll
   static void setup() {
-    response = RestAssured
-      .given()
-      .baseUri(BASE_URI)
-      .basePath(POST_PET_PATH)
-      .headers(Map.of("Accept", "application/json",
-        "Content-Type", "application/json"))
-      .body(VALID_REQUEST_BODY)
-      .when()
-      .post()
-      .then()
-      .extract().response();
-
+    response = createPet(VALID_REQUEST_BODY);
     petResponse = response.as(Pet.class);
   }
 

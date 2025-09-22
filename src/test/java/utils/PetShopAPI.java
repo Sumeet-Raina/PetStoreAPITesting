@@ -31,6 +31,18 @@ public class PetShopAPI {
                 .setBasePath(path);
     }
 
+    public static Response createPet(Object petBody) {
+        return RestAssured
+          .given()
+          .spec(updatePetByJSONRequestSpec())
+          .body(petBody)
+          .when()
+          .post()
+          .then()
+          .extract()
+          .response();
+    }
+
     public static RequestSpecification updatePetByIdRequestSpec(Integer petId) {
         return defaultRequestSpec(PET_ID_PATH)
                 .addHeaders(Map.of("Accept", "application/json"))
